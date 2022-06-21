@@ -31,7 +31,7 @@ public class MainRunner {
 		
 		while(true)
 		{
-			System.out.println("\n\n ============== Link Panel =====================");
+			System.out.println("\n\n ============== Link Panel ==============");
 			System.out.println("1. Insert Employee ");
 			System.out.println("2. Add Project");
 			System.out.println("3. Assign Project to Employee");
