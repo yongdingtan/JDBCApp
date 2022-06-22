@@ -16,28 +16,30 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	@Override
+	public boolean deleteEmployee(int empId) throws SQLException
+	{
+		return empDAO.deleteEmployee(empId);
+	}
+	
+	@Override
 	public boolean saveEmployee(Employee e) throws SQLException{
 		// add security code 
 		// add data validation code 
 		// add other business contraint on employee to be add
 		
-		boolean status = empDAO.saveEmployee(e);
-		return status;
+		return empDAO.saveEmployee(e);
 	}
 
 	@Override
 	public Employee getEmployeeByID(int id) throws SQLException {
-		Employee output = empDAO.getEmployeeByID(id);
 		
-		return output;
+		return empDAO.getEmployeeByID(id);
 	}
 
 	@Override
 	public List<Employee> getAllEmployee() throws SQLException {
 		
-		List<Employee> employees = empDAO.getAllEmployee();
-		
-		return employees;
+		return empDAO.getAllEmployee();
 	}
 
 	@Override
@@ -50,8 +52,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public boolean validateSalary(int salary, String designation) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-	
-	
+	}	
 
 }

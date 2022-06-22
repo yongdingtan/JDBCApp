@@ -19,8 +19,6 @@ public class MySQLConnection {
 				
     			Class.forName("com.mysql.cj.jdbc.Driver");
     			mySql = DriverManager.getConnection(url,"root","password");
-    	        System.out.println("MySQL Connection :- "+mySql);
-    	        
 			} 
     		catch (SQLException e) {
     			System.out.println("SQL Issues :- "+e.getMessage());

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,9 +111,37 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public Employee assignProjectToEmployee(int empId, int projectId) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deleteEmployee(int empId) throws SQLException {
+		boolean status = false;
+		
+		String query = "delete from ncs.employee where empId = ?";
+		try {
+			
+			con.setAutoCommit(false);
+			
+			PreparedStatement psUpdate = con.prepareStatement(query);
+			psUpdate.setInt(1, empId);
+			
+			int rowsAffected = psUpdate.executeUpdate();
+			System.err.println("INFO : "+LocalTime.now()+" rows effected after update :- "+rowsAffected);
+			
+			if(rowsAffected !=0)
+			{
+				con.commit();
+				System.err.println("INFO : "+LocalTime.now()+" Database commited !!!");
+				status = true;
+			}
+			
+			
+		} catch (Exception e) {
+			try {
+				System.err.println("Inside catch Block :- "+e);
+				con.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Exception during roll back "+e);
+			}
+		}
+		return status;
 	}
 
 	

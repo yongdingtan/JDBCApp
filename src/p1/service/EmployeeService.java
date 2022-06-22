@@ -8,6 +8,7 @@ import p1.model.Employee;
 public interface EmployeeService {
 
 	public boolean saveEmployee(Employee e) throws SQLException;
+	public boolean deleteEmployee(int empId) throws SQLException;
 	public Employee getEmployeeByID(int id) throws SQLException;
 	public List<Employee> getAllEmployee() throws SQLException;
 	public Employee doLinkProjectWithEmployee(int empId,int projetId);

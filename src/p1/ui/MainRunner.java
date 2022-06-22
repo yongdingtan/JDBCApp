@@ -2,6 +2,7 @@ package p1.ui;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import p1.dto.EmployeeDTO;
@@ -37,6 +38,11 @@ public class MainRunner {
 			System.out.println("3. Assign Project to Employee");
 			System.out.println("4. View All Employee");
 			System.out.println("5. View Employee By ID ");
+			System.out.println("6. Delete Project");
+			System.out.println("7. Project Details");
+			System.out.println("8. Project Salary");
+			System.out.println("9. Delete Employee");
+			System.out.println("10. Add multiple employees");
 			System.out.println("0. EXIT");
 			
 			System.out.println("Enter your choice : ");
@@ -59,6 +65,21 @@ public class MainRunner {
 				case 5:
 						app.viewEmployeeByID();
 						break;
+				case 6:
+						app.deleteProject();
+						break;
+				case 7:
+						app.showProjectDetails();
+						break;
+				case 8:
+						app.showProjectSalary();
+						break;
+				case 9:
+						app.deleteEmployee();
+						break;
+				case 10:
+						app.saveMultipleEmployee();
+						break;
 				case 0:
 					System.exit(0);
 			}
@@ -66,6 +87,114 @@ public class MainRunner {
 		}//end of while
 	}//end of main
 	
+	public void saveMultipleEmployee()
+	{
+		System.out.println("Enter number of employees to add: ");
+		int count = sc.nextInt();
+		
+		while(count>0) {
+			
+		
+		System.out.println("Enter id: ");
+		int empId = sc.nextInt();
+		System.out.println("Enter name: ");
+		String name = stringSc.nextLine();
+		System.out.println("Enter projectInfo: ");
+		int projectInfo = sc.nextInt();
+		System.out.println("Enter email: ");
+		String email = stringSc.nextLine();
+		System.out.println("Enter bank account: ");
+		int bankAccount = sc.nextInt();
+		System.out.println("Enter address: ");
+		String address = stringSc.nextLine();
+		System.out.println("Enter designation: ");
+		String designation = stringSc.nextLine();
+		System.out.println("Enter salary: ");
+		int salary = sc.nextInt();
+		
+		Employee e = new Employee(empId, name, projectInfo, email, bankAccount, address, designation, salary);
+		try {
+			boolean status = empService.saveEmployee(e);
+			if(status == true)
+			{
+				System.out.println(e.getEmpId()+" Saved in the Database "+e);
+			}
+			else
+			{
+				throw new Exception("Unknown SQL Exception ");
+			}
+		}
+		catch (Exception e2) {
+			System.out.println(e2.getMessage()+"\n contact to customer care");
+			System.out.println("\n\n care@ncshr.com");
+		}
+		count--;
+		}
+	}
+	
+	public void deleteEmployee()
+	{
+		System.out.println("Enter employee ID: ");
+		int empId = sc.nextInt();
+		
+		try {
+			empService.deleteEmployee(empId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showProjectSalary()
+	{
+		System.out.println("Enter project id: ");
+		int projectId = sc.nextInt();
+		try {
+			
+			Map<Project, Employee> projectDetails = projectService.showProjectSalary(projectId);
+			projectDetails.forEach((k, v) -> {
+				System.out.println("==============Project Detail==============");
+				System.out.println("Project ID: "+k.getProjectNumber()+" Total Salary: $"+v.getSalary());		
+			});
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showProjectDetails()
+	{
+		System.out.println("Enter project id: ");
+		int projectId = sc.nextInt();
+		try {
+			
+			Map<Project, List<Employee>> projectDetails = projectService.showProjectDetails(projectId);
+			projectDetails.forEach((k, v) -> {
+				System.out.println("==============Project Detail==============");
+				System.out.println("Project ID: "+k.getProjectNumber()+" Project Name: "+k.getProjectName());
+				System.out.println("=============Employee Details=============");
+				for (Employee employee : v) {
+					System.out.println("Employee ID: "+ employee.getEmpId()+" Email: "+employee.getEmail());
+				}
+			});
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteProject() {
+		System.out.println("Enter project id: ");
+		int projectId = sc.nextInt();
+		try {
+			
+			projectService.deleteProject(projectId);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public void saveEmployee()
 	{
 		System.out.println("Enter id: ");
